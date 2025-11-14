@@ -1,0 +1,346 @@
+/* --- CSS Variables (The "Theme") --- */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --secondary-btn-color: #6c757d;
+    --secondary-btn-hover: #5a6268;
+    --card-bg: #ffffff;
+    --body-bg: #f8f9fa;
+    --text-dark: #212529;
+    --text-light: #f8f9fa;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --heads-color: #ffc107;
+    --tails-color: #17a2b8;
+
+    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition-speed: 0.2s ease-in-out;
+}
+
+/* --- Global Reset & Body Styling --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Header & Footer --- */
+header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-weight: 700;
+}
+
+footer {
+    background-color: var(--text-dark);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: auto; /* Pushes footer to the bottom */
+}
+
+/* --- Main Content Layout (Responsive Grid) --- */
+main {
+    flex: 1; /* Ensures main content fills available space */
+    width: 100%;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: grid;
+    /* Responsive grid: 1 column on small, 2 on medium, 3 on large */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+/* --- Tool Card Styling --- */
+.tool-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tool-card h2 {
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.description {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+/* --- Form & Input Elements --- */
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input[type="number"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* --- Button Styling --- */
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.primary-btn,
+.secondary-btn {
+    flex: 1; /* Make buttons share space */
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.secondary-btn {
+    background-color: var(--secondary-btn-color);
+    color: var(--text-light);
+}
+
+.secondary-btn:hover {
+    background-color: var(--secondary-btn-hover);
+}
+
+.primary-btn:active,
+.secondary-btn:active {
+    transform: scale(0.98);
+}
+
+.secondary-btn.small {
+    flex: 0 1 auto; /* Don't grow, shrink if needed, auto basis */
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+
+/* --- Result & Info Display --- */
+.result-container {
+    margin-top: 0.5rem;
+}
+
+.result-container h3,
+.result-container h4 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.result-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-align: center;
+    background-color: var(--body-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    word-wrap: break-word;
+}
+
+.result-container.secondary {
+    opacity: 0.8;
+}
+.result-container.secondary .result-display,
+.result-container.secondary #prev-name-result {
+    font-size: 1.25rem;
+    padding: 0.75rem;
+    color: var(--text-dark);
+}
+
+.info-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.error-message {
+    color: var(--error-color);
+    font-weight: 600;
+    display: none; /* Hidden by default */
+    text-align: center;
+    background: rgba(220, 53, 69, 0.1);
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+}
+
+/* --- Specific Tool Styles --- */
+
+/* Number Generator */
+.form-controls {
+    display: flex;
+    gap: 1rem;
+}
+.input-group {
+    flex: 1;
+}
+
+/* Coin Flipper */
+.coin-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.coin {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--heads-color);
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    border: 5px solid;
+    border-color: #f39c12; /* Darker gold */
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+    transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.coin.flipping {
+    transform: rotateY(1800deg); /* Multiple spins for effect */
+}
+
+#coin-result {
+    font-size: 1.75rem; /* Smaller than main result display */
+    padding: 0;
+    background: none;
+}
+
+.history-container {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+#flip-history {
+    list-style: none;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+#flip-history li {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+#flip-history li:last-child {
+    border-bottom: none;
+}
+
+#flip-history li.heads {
+    font-weight: 600;
+    color: var(--heads-color);
+    background-color: rgba(255, 193, 7, 0.05);
+}
+
+#flip-history li.tails {
+    font-weight: 600;
+    color: var(--tails-color);
+    background-color: rgba(23, 162, 184, 0.05);
+}
+
+/* --- Media Query for Small Devices --- */
+@media (max-width: 480px) {
+    main {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+        gap: 1rem;
+    }
+    .tool-card {
+        padding: 1.5rem;
+    }
+    .form-controls {
+        flex-direction: column;
+    }
+    .result-display {
+        font-size: 2rem;
+    }
+    .coin {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+}
