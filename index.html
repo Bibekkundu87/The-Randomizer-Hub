@@ -3,95 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Randomizer Hub - All-in-One Generator Tool</title>
+    <title>Randomizer Hub - Modern Generator Tools</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header>
-        <h1>🎲 The Randomizer Hub</h1>
-    </header>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>🎲 Randomizer Hub</h3>
+            </div>
+            <ul class="nav-list">
+                <li>
+                    <button class="nav-button active" data-tool="number-tool">
+                        <!-- Embedded SVG Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        <span>Number Generator</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-button" data-tool="coin-tool">
+                        <!-- Embedded SVG Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16.2 7.8c-1.3-1.3-3.1-2.1-5-2.1-1.9 0-3.7.8-5 2.1"></path></svg>
+                        <span>Coin Flipper</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-button" data-tool="name-tool">
+                        <!-- Embedded SVG Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <span>Name Picker</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
 
-    <main>
-        <section id="number-generator" class="tool-card">
-            <h2>Random Number Generator</h2>
-            <p class="description">Get a random number within your specified range.</p>
-            
-            <div class="form-controls">
-                <div class="input-group">
-                    <label for="min-num">Min:</label>
-                    <input type="number" id="min-num" value="1">
+        <!-- Main Content Area -->
+        <main class="tool-content">
+            <!-- Tool 1: Random Number Generator -->
+            <section id="number-tool" class="tool-panel active">
+                <div class="tool-card">
+                    <h2>Random Number Generator</h2>
+                    <p class="description">Get a random number within your specified range.</p>
+                    
+                    <div class="result-box">
+                        <span id="number-result" class="result-text">--</span>
+                    </div>
+                    
+                    <p id="num-error" class="error-message"></p>
+                    
+                    <div class="form-controls">
+                        <div class="input-group">
+                            <label for="min-num">Min:</label>
+                            <input type="number" id="min-num" value="1">
+                        </div>
+                        <div class="input-group">
+                            <label for="max-num">Max:</label>
+                            <input type="number" id="max-num" value="100">
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="generate-num-btn" class="primary-btn">Generate</button>
+                        <button id="clear-num-btn" class="secondary-btn">Reset</button>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label for="max-num">Max:</label>
-                    <input type="number" id="max-num" value="100">
+            </section>
+
+            <!-- Tool 2: Coin Flipper -->
+            <section id="coin-tool" class="tool-panel">
+                <div class="tool-card">
+                    <h2>Coin Flipper</h2>
+                    <p class="description">Flip a virtual coin. Heads or tails?</p>
+
+                    <div class="coin-display">
+                        <!-- This is the 3D coin wrapper -->
+                        <div class="coin-wrapper">
+                            <div id="coin" class="coin">
+                                <div class="coin-face coin-front">H</div>
+                                <div class="coin-face coin-back">T</div>
+                            </div>
+                        </div>
+                        <p id="coin-result" class="result-display-sub">Click to flip!</p>
+                    </div>
+
+                    <button id="flip-coin-btn" class="primary-btn">Flip Coin</button>
+
+                    <div class="history-container">
+                        <div class="history-header">
+                            <h3>History (Last 10)</h3>
+                            <button id="reset-history-btn" class="secondary-btn small">Clear</button>
+                        </div>
+                        <ol id="flip-history"></ol>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="button-group">
-                <button id="generate-num-btn" class="primary-btn">Generate</button>
-                <button id="clear-num-btn" class="secondary-btn">Reset</button>
-            </div>
-            
-            <p id="num-error" class="error-message"></p>
-            <div class="result-container">
-                <h3>Result:</h3>
-                <p class="result-display" id="number-result">--</p>
-            </div>
-        </section>
+            </section>
 
-        <section id="coin-flipper" class="tool-card">
-            <h2>Coin Flipper</h2>
-            <p class="description">Flip a virtual coin. Heads or tails?</p>
+            <!-- Tool 3: Random Name Picker -->
+            <section id="name-tool" class="tool-panel">
+                <div class="tool-card">
+                    <h2>Random Name Picker</h2>
+                    <p class="description">Paste a list of names (comma or line-separated) to pick a winner.</p>
 
-            <div class="coin-display">
-                <div id="coin-visual" class="coin">?</div>
-                <p class="result-display" id="coin-result">Click to flip!</p>
-            </div>
+                    <div class="result-box">
+                        <span id="name-result" class="result-text">--</span>
+                    </div>
 
-            <button id="flip-coin-btn" class="primary-btn">Flip Coin</button>
+                    <div class="result-container secondary">
+                        <h4>Previous Winner:</h4>
+                        <p id="prev-name-result">--</p>
+                    </div>
 
-            <div class="history-container">
-                <div class="history-header">
-                    <h3>History (Last 10)</h3>
-                    <button id="reset-history-btn" class="secondary-btn small">Clear</button>
-                </div>
-                <ol id="flip-history"></ol>
-            </div>
-        </section>
-
-        <section id="name-picker" class="tool-card">
-            <h2>Random Name Picker</h2>
-            <p class="description">Paste a list of names (comma or line-separated) to pick a winner.</p>
-
-            <label for="name-list">Enter Names:</label>
-            <textarea id="name-list" rows="8" placeholder="Alice, Bob, Charlie...
+                    <label for="name-list" class="sr-only">Enter Names:</label>
+                    <textarea id="name-list" rows="8" placeholder="Alice, Bob, Charlie...
 David
 Eve"></textarea>
-            
-            <p class="info-text">Names in list: <span id="name-count">0</span></p>
-            
-            <div class="button-group">
-                <button id="pick-name-btn" class="primary-btn">Pick a Winner</button>
-                <button id="clear-name-btn" class="secondary-btn">Clear List</button>
-            </div>
-
-            <div class="result-container">
-                <h3>Winner:</h3>
-                <p class="result-display" id="name-result">--</p>
-            </div>
-            <div class="result-container secondary">
-                <h4>Previous Winner:</h4>
-                <p id="prev-name-result">--</p>
-            </div>
-        </section>
-    </main>
+                    
+                    <p class="info-text">Names in list: <span id="name-count">0</span></p>
+                    
+                    <div class="button-group">
+                        <button id="pick-name-btn" class="primary-btn">Pick a Winner</button>
+                        <button id="clear-name-btn" class="secondary-btn">Clear List</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <footer>
-        <p>&copy; 2025 The Randomizer Hub. Built with HTML, CSS & JavaScript.</p>
+        <p>&copy; 2025 Randomizer Hub. Designed with 💜</p>
     </footer>
 
     <script src="script.js"></script>
