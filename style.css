@@ -1,24 +1,24 @@
-/* --- CSS Variables (The "Theme") --- */
+/* --- CSS Variables (New Dark Theme) --- */
 :root {
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --secondary-btn-color: #6c757d;
-    --secondary-btn-hover: #5a6268;
-    --card-bg: #ffffff;
-    --body-bg: #f8f9fa;
-    --text-dark: #212529;
-    --text-light: #f8f9fa;
-    --text-muted: #6c757d;
-    --border-color: #dee2e6;
-    --error-color: #dc3545;
-    --success-color: #28a745;
-    --heads-color: #ffc107;
-    --tails-color: #17a2b8;
+    --primary-color: #8A2BE2; /* A vibrant purple */
+    --secondary-color: #00BFFF; /* A bright cyan */
+    --accent-gradient: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    
+    --background-color: #121019; /* Very dark navy/purple */
+    --card-background: #1e1b29; /* Lighter dark shade */
+    --border-color: #3a364b;
+    --text-color: #e0e0e0;
+    --text-muted: #9a9a9a;
+    --text-dark-on-light: #121019;
 
-    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --border-radius: 8px;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --transition-speed: 0.2s ease-in-out;
+    --error-color: #ff4757;
+    --heads-gradient: linear-gradient(135deg, #FFD700, #F0A500); /* Gold */
+    --tails-gradient: linear-gradient(135deg, #C0C0C0, #8A95A5); /* Silver */
+
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    --transition-speed: 0.3s ease;
 }
 
 /* --- Global Reset & Body Styling --- */
@@ -35,74 +35,133 @@ html {
 
 body {
     font-family: var(--font-family);
-    background-color: var(--body-bg);
-    color: var(--text-dark);
+    background-color: var(--background-color);
+    color: var(--text-color);
     line-height: 1.6;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* --- Header & Footer --- */
-header {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    padding: 1.5rem 2rem;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    font-weight: 700;
-}
-
-footer {
-    background-color: var(--text-dark);
-    color: var(--text-muted);
-    text-align: center;
-    padding: 1.5rem;
-    margin-top: auto; /* Pushes footer to the bottom */
-}
-
-/* --- Main Content Layout (Responsive Grid) --- */
-main {
-    flex: 1; /* Ensures main content fills available space */
+/* --- App Layout (Sidebar + Content) --- */
+.app-container {
+    display: flex;
+    flex: 1;
     width: 100%;
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-    display: grid;
-    /* Responsive grid: 1 column on small, 2 on medium, 3 on large */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
-/* --- Tool Card Styling --- */
-.tool-card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    padding: 2rem;
+/* --- Sidebar Navigation --- */
+.sidebar {
+    width: 260px;
+    background-color: var(--card-background);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    gap: 2rem;
+    flex-shrink: 0;
 }
 
-.tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+.sidebar-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 0 0.5rem;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-button {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition-speed);
+}
+
+.nav-button svg {
+    stroke: var(--text-muted);
+    transition: var(--transition-speed);
+    flex-shrink: 0;
+}
+
+.nav-button:hover {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+.nav-button:hover svg {
+    stroke: var(--text-color);
+}
+
+.nav-button.active {
+    background: var(--accent-gradient);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3);
+}
+.nav-button.active svg {
+    stroke: #ffffff;
+}
+
+/* --- Main Tool Content --- */
+.tool-content {
+    flex: 1;
+    padding: 2.5rem;
+    overflow-y: auto;
+}
+
+/* --- Tool Panel Styling --- */
+.tool-panel {
+    display: none; /* Hidden by default */
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tool-panel.active {
+    display: block;
+    animation: fadeIn 0.5s ease-out; /* Fade-in animation */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tool-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .tool-card h2 {
-    font-weight: 600;
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.5rem;
+    font-weight: 700;
+    font-size: 1.75rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
 }
 
 .description {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text-muted);
     margin-bottom: 0.5rem;
 }
@@ -113,64 +172,92 @@ label {
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
+.sr-only { /* For accessibility, hides label visually */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
 
 input[type="number"],
 textarea {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.85rem 1rem;
     font-family: var(--font-family);
     font-size: 1rem;
-    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
-    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    color: var(--text-color);
+    transition: var(--transition-speed);
 }
 
 input[type="number"]:focus,
 textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.3);
 }
 
 textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 140px;
+}
+
+.form-controls {
+    display: flex;
+    gap: 1.5rem;
+}
+.input-group {
+    flex: 1;
 }
 
 /* --- Button Styling --- */
 .button-group {
     display: flex;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
 .primary-btn,
 .secondary-btn {
-    flex: 1; /* Make buttons share space */
-    padding: 0.75rem 1rem;
+    flex: 1;
+    padding: 0.85rem 1rem;
     font-size: 1rem;
     font-weight: 600;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    transition: var(--transition-speed);
+    transform: scale(1);
 }
 
 .primary-btn {
-    background-color: var(--primary-color);
-    color: var(--text-light);
+    background: var(--accent-gradient);
+    background-size: 200% 100%;
+    background-position: left;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3);
 }
 
 .primary-btn:hover {
-    background-color: var(--primary-hover);
+    background-position: right;
+    box-shadow: 0 6px 16px rgba(0, 191, 255, 0.3);
+    transform: scale(1.02);
 }
 
 .secondary-btn {
-    background-color: var(--secondary-btn-color);
-    color: var(--text-light);
+    background-color: var(--border-color);
+    color: var(--text-color);
 }
 
 .secondary-btn:hover {
-    background-color: var(--secondary-btn-hover);
+    background-color: #4a465b; /* Slightly lighter border color */
+    transform: scale(1.02);
 }
 
 .primary-btn:active,
@@ -179,50 +266,61 @@ textarea {
 }
 
 .secondary-btn.small {
-    flex: 0 1 auto; /* Don't grow, shrink if needed, auto basis */
-    padding: 0.25rem 0.75rem;
+    flex: 0 1 auto;
+    padding: 0.35rem 0.85rem;
     font-size: 0.85rem;
 }
 
-
 /* --- Result & Info Display --- */
-.result-container {
-    margin-top: 0.5rem;
-}
-
-.result-container h3,
-.result-container h4 {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.result-display {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    text-align: center;
-    background-color: var(--body-bg);
-    padding: 1.5rem;
+.result-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 160px;
+    background-color: var(--background-color);
     border-radius: var(--border-radius);
+    padding: 1.5rem;
+}
+
+.result-text {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    text-align: center;
     word-wrap: break-word;
+    line-height: 1.2;
+}
+/* Animation for result text */
+.result-text.animate {
+    animation: popIn 0.3s ease-out;
+}
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    70% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
 }
 
 .result-container.secondary {
-    opacity: 0.8;
-}
-.result-container.secondary .result-display,
-.result-container.secondary #prev-name-result {
-    font-size: 1.25rem;
+    text-align: center;
+    background: var(--background-color);
     padding: 0.75rem;
-    color: var(--text-dark);
+    border-radius: var(--border-radius);
+}
+.result-container.secondary h4 {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.result-container.secondary p {
+    font-size: 1.25rem;
+    color: var(--text-color);
 }
 
 .info-text {
     font-size: 0.9rem;
     color: var(--text-muted);
+    text-align: center;
 }
 
 .error-message {
@@ -230,117 +328,154 @@ textarea {
     font-weight: 600;
     display: none; /* Hidden by default */
     text-align: center;
-    background: rgba(220, 53, 69, 0.1);
-    padding: 0.5rem;
+    background: rgba(255, 71, 87, 0.1);
+    padding: 0.75rem;
     border-radius: var(--border-radius);
 }
 
-/* --- Specific Tool Styles --- */
-
-/* Number Generator */
-.form-controls {
-    display: flex;
-    gap: 1rem;
-}
-.input-group {
-    flex: 1;
-}
-
-/* Coin Flipper */
+/* --- V2: 3D Coin Flipper --- */
 .coin-display {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
+    gap: 1.5rem;
 }
-
+.coin-wrapper {
+    perspective: 1000px; /* This enables the 3D space */
+    width: 150px;
+    height: 150px;
+}
 .coin {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d; /* This is crucial for 3D */
+    transition: transform 1s cubic-bezier(0.3, 0, 0.3, 1);
+}
+/* These classes will be added by JS */
+.coin.flip-heads {
+    transform: rotateY(1800deg); /* 5 full spins */
+}
+.coin.flip-tails {
+    transform: rotateY(1980deg); /* 5.5 spins (1800 + 180) */
+}
+
+.coin-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    background-color: var(--heads-color);
-    color: var(--text-dark);
+    backface-visibility: hidden; /* Hides the back of the element */
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    align-items: center;
+    font-size: 4rem;
     font-weight: 700;
-    border: 5px solid;
-    border-color: #f39c12; /* Darker gold */
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
-    transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    color: var(--text-dark-on-light);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.3);
+}
+.coin-front {
+    background: var(--heads-gradient);
+    z-index: 2;
+}
+.coin-back {
+    background: var(--tails-gradient);
+    transform: rotateY(180deg); /* Flips this face to the back */
+}
+.result-display-sub {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-color);
 }
 
-.coin.flipping {
-    transform: rotateY(1800deg); /* Multiple spins for effect */
-}
-
-#coin-result {
-    font-size: 1.75rem; /* Smaller than main result display */
-    padding: 0;
-    background: none;
-}
-
+/* Coin History */
 .history-container {
     border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
+    padding-top: 1.5rem;
 }
-
 .history-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
-
 #flip-history {
     list-style: none;
     max-height: 150px;
     overflow-y: auto;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
+    background: var(--background-color);
 }
-
 #flip-history li {
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--border-color);
 }
-#flip-history li:last-child {
-    border-bottom: none;
-}
-
+#flip-history li:last-child { border-bottom: none; }
 #flip-history li.heads {
     font-weight: 600;
-    color: var(--heads-color);
-    background-color: rgba(255, 193, 7, 0.05);
+    color: #FFD700;
 }
-
 #flip-history li.tails {
     font-weight: 600;
-    color: var(--tails-color);
-    background-color: rgba(23, 162, 184, 0.05);
+    color: #C0C0C0;
 }
 
-/* --- Media Query for Small Devices --- */
-@media (max-width: 480px) {
-    main {
-        margin: 1rem auto;
-        padding: 0 0.5rem;
-        gap: 1rem;
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 900px) {
+    .app-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .sidebar-header {
+        display: none; /* Hide header on mobile nav */
+    }
+    .nav-list {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+    .nav-button {
+        padding: 0.75rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    .nav-button span {
+        font-size: 0.75rem;
+    }
+    .tool-content {
+        padding: 1.5rem;
     }
     .tool-card {
         padding: 1.5rem;
     }
+    .result-text {
+        font-size: 3rem;
+    }
+    .coin-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+    .coin-face {
+        font-size: 3rem;
+    }
     .form-controls {
         flex-direction: column;
-    }
-    .result-display {
-        font-size: 2rem;
-    }
-    .coin {
-        width: 80px;
-        height: 80px;
-        font-size: 2.5rem;
+        gap: 1rem;
     }
 }
