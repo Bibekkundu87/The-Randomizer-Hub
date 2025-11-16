@@ -3,6 +3,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * ----------------------------------------
+     * V2: APP NAVIGATION
+     * ----------------------------------------
+     */
+    const navButtons = document.querySelectorAll('.nav-button');
+    const toolPanels = document.querySelectorAll('.tool-panel');
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const toolId = button.dataset.tool;
+
+            // Remove 'active' from all buttons and panels
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            toolPanels.forEach(panel => panel.classList.remove('active'));
+
+            // Add 'active' to the clicked button and corresponding panel
+            button.classList.add('active');
+            document.getElementById(toolId).classList.add('active');
+        });
+    });
+
+
+    /**
+     * ----------------------------------------
      * RANDOM NUMBER GENERATOR
      * ----------------------------------------
      */
@@ -13,12 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const numberResult = document.getElementById('number-result');
     const numError = document.getElementById('num-error');
 
-    // Generate Button Click
     generateNumBtn.addEventListener('click', () => {
         const min = parseInt(minNumInput.value);
         const max = parseInt(maxNumInput.value);
 
-        // --- Validation ---
         if (isNaN(min) || isNaN(max)) {
             showError('Both inputs must be valid numbers.');
             return;
@@ -28,13 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- If valid, generate ---
         hideError();
         const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-        numberResult.textContent = randomNum;
+        
+        // V2: Animate the result
+        animateResult(numberResult, randomNum);
     });
 
-    // Clear Button Click
     clearNumBtn.addEventListener('click', () => {
         minNumInput.value = '1';
         maxNumInput.value = '100';
@@ -42,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError();
     });
 
-    // Helper functions for number error
     function showError(message) {
         numError.textContent = message;
         numError.style.display = 'block';
@@ -52,73 +72,75 @@ document.addEventListener('DOMContentLoaded', () => {
         numError.style.display = 'none';
     }
 
+    // V2: Helper function to animate result text
+    function animateResult(element, text) {
+        element.textContent = text;
+        element.classList.remove('animate');
+        // void element.offsetWidth is a trick to force browser reflow
+        void element.offsetWidth; 
+        element.classList.add('animate');
+    }
+
+
     /**
      * ----------------------------------------
-     * COIN FLIPPER
+     * V2: 3D COIN FLIPPER
      * ----------------------------------------
      */
     const flipCoinBtn = document.getElementById('flip-coin-btn');
-    const coinVisual = document.getElementById('coin-visual');
+    const coin = document.getElementById('coin');
     const coinResult = document.getElementById('coin-result');
     const flipHistoryList = document.getElementById('flip-history');
     const resetHistoryBtn = document.getElementById('reset-history-btn');
 
-    let flipHistory = []; // State for the history
+    let flipHistory = [];
+    let isFlipping = false;
     const MAX_HISTORY = 10;
 
-    // Flip Button Click
     flipCoinBtn.addEventListener('click', () => {
-        // Disable button during animation
+        if (isFlipping) return; // Don't allow flip while already flipping
+
+        isFlipping = true;
         flipCoinBtn.disabled = true;
-
-        // Add flipping class for CSS animation
-        coinVisual.classList.add('flipping');
         coinResult.textContent = 'Flipping...';
-
+        
         // Determine result
         const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
+        
+        // V2: Reset animation classes and trigger 3D flip
+        coin.classList.remove('flip-heads', 'flip-tails');
+        void coin.offsetWidth; // Force reflow
+        
+        if (result === 'Heads') {
+            coin.classList.add('flip-heads');
+        } else {
+            coin.classList.add('flip-tails');
+        }
 
         // Wait for animation to finish (1s, matching CSS)
         setTimeout(() => {
-            // Update visual and text
-            if (result === 'Heads') {
-                coinVisual.textContent = '😀'; // Emoji for Heads
-                coinVisual.style.backgroundColor = 'var(--heads-color)';
-                coinVisual.style.borderColor = '#f39c12';
-            } else {
-                coinVisual.textContent = '🪙'; // Emoji for Tails
-                coinVisual.style.backgroundColor = 'var(--tails-color)';
-                coinVisual.style.borderColor = '#138496';
-            }
             coinResult.textContent = result;
-
-            // Update state and UI
             updateFlipHistory(result);
-
-            // Re-enable button and remove animation class
+            isFlipping = false;
             flipCoinBtn.disabled = false;
-            coinVisual.classList.remove('flipping');
         }, 1000); // 1000ms = 1s
     });
 
-    // Reset History Button Click
     resetHistoryBtn.addEventListener('click', () => {
         flipHistory = [];
         renderFlipHistory();
     });
 
-    // Add new flip to history and trim array
     function updateFlipHistory(result) {
-        flipHistory.unshift(result); // Add to the beginning
+        flipHistory.unshift(result);
         if (flipHistory.length > MAX_HISTORY) {
-            flipHistory.pop(); // Remove the last item
+            flipHistory.pop();
         }
         renderFlipHistory();
     }
 
-    // Render the history list in the UI
     function renderFlipHistory() {
-        flipHistoryList.innerHTML = ''; // Clear current list
+        flipHistoryList.innerHTML = '';
         if (flipHistory.length === 0) {
             flipHistoryList.innerHTML = '<li>No flips yet...</li>';
             return;
@@ -126,12 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
         flipHistory.forEach(flip => {
             const li = document.createElement('li');
             li.textContent = flip;
-            li.className = flip.toLowerCase(); // Adds .heads or .tails class
+            li.className = flip.toLowerCase(); // .heads or .tails
             flipHistoryList.appendChild(li);
         });
     }
-    // Initial render on load
-    renderFlipHistory();
+    renderFlipHistory(); // Initial render on load
 
 
     /**
@@ -146,34 +167,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameResult = document.getElementById('name-result');
     const prevNameResult = document.getElementById('prev-name-result');
 
-    // Update name count live as user types
     nameListInput.addEventListener('input', updateNameCount);
 
-    // Pick Name Button Click
     pickNameBtn.addEventListener('click', () => {
         const names = getNamesArray();
         
         if (names.length === 0) {
-            nameResult.textContent = 'No names';
+            animateResult(nameResult, 'No Names');
             prevNameResult.textContent = '--';
             return;
         }
 
-        // Pick a random name
         const randomIndex = Math.floor(Math.random() * names.length);
         const selectedName = names[randomIndex];
 
-        // Move current winner to "previous"
         const currentWinner = nameResult.textContent;
-        if (currentWinner !== '--' && currentWinner !== 'No names') {
+        if (currentWinner !== '--' && currentWinner !== 'No Names') {
             prevNameResult.textContent = currentWinner;
         }
 
-        // Display new winner
-        nameResult.textContent = selectedName;
+        // V2: Animate the result
+        animateResult(nameResult, selectedName);
     });
 
-    // Clear Button Click
     clearNameBtn.addEventListener('click', () => {
         nameListInput.value = '';
         nameResult.textContent = '--';
@@ -181,21 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNameCount();
     });
 
-    // Helper to get names from textarea
     function getNamesArray() {
         const text = nameListInput.value.trim();
         if (text === '') return [];
-        
-        // Split by comma OR newline, trim whitespace, and filter out empty strings
         return text.split(/[\n,]+/)
                    .map(name => name.trim())
                    .filter(name => name.length > 0);
     }
 
-    // Helper to update the name count
     function updateNameCount() {
-        const names = getNamesArray();
-        nameCount.textContent = names.length;
+        nameCount.textContent = getNamesArray().length;
     }
-
 });
